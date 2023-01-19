@@ -1,0 +1,230 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "Final-Project-API"
+  },
+  "paths": {
+    "/paid": {
+      "get": {
+        "description": "Get all paids",
+        "tags": ["Paid"],
+        "operationId": "getAllPaids",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+              "schema": {
+                "$ref": "#/definitions/Paid"
+              },
+              "description": "Successful response"
+            },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/CustomError"
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "description": "Login",
+        "tags": ["Auth"],
+        "operationId": "authLogin",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "$ref": "#/definitions/TokenPair"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/CustomError"
+            }
+          }
+        }
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "description": "Refresh token",
+        "tags": ["Auth"],
+        "operationId": "authLogin",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "$ref": "#/definitions/TokenPair"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/CustomError"
+            }
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "description": "Creation of user",
+        "tags": ["Auth"],
+        "operationId": "authRegister",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "$ref": "#/definitions/NewUser"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "CustomError": {
+      "properties": {
+        "statusCode": {
+          "type": "number",
+          "example": 400
+        },
+        "message": {
+          "type": "string",
+          "example": "Bad request"
+        }
+      }
+    },
+    "Paid": {
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "63c82bee3fdae050c9a5f907"
+        },
+        "course": {
+          "type": "string",
+          "example": "FS"
+        },
+        "name": {
+          "type": "string",
+          "example": "Лідія!"
+        },
+        "surname": {
+          "type": "string",
+          "example": "степанов"
+        },
+        "email": {
+          "type": "string",
+          "example": "zep77@mail.ru"
+        },
+        "phone": {
+          "type": "string",
+          "example": "8(977) 291-25-38"
+        },
+        "age": {
+          "type": "number",
+          "example": 25
+        },
+        "course_format": {
+          "type": "string",
+          "example": "static"
+        },
+        "course_type": {
+          "type": "string",
+          "example": "pro"
+        },
+        "created_at": {
+          "type": "string",
+          "example": "2021-08-04T18:18:23Z"
+        },
+        "utm": {
+          "type": "string",
+          "example": "event"
+        },
+        "msg": {
+          "type": "string",
+          "example": null
+        },
+        "status": {
+          "type": "string",
+          "example": "Новый"
+        },
+        "sum": {
+          "type": "string",
+          "example": null
+        },
+        "already_paid": {
+          "type": "string",
+          "example": null
+        }
+      }
+    },
+    "TokenPair": {
+      "properties": {
+        "accessToken": {
+          "type": "string",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYzk1OWRmNDg0YzFkMTY3NjQ2NmJmZSIsImlhdCI6MTY3NDE0Mjk1MiwiZXhwIjoxNjc0MTY0NTUyfQ.mAkb50poEewU_6meI-7YZCS899GtLMYALOtgzIeKkDc"
+        },
+        "refreshToken": {
+          "type": "string",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYzk1OWRmNDg0YzFkMTY3NjQ2NmJmZSIsImlhdCI6MTY3NDE0Mjk1MiwiZXhwIjoxNjc0MTg2MTUyfQ.-utkXbsK0eu86ZJO9w_YEGhfPkhA0xg6ghHn4Gmi_Ko"
+        }
+      }
+    },
+    "NewUser": {
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "63c96898b6060ec233ff7ce3"
+        },
+        "email": {
+          "type": "string",
+          "example": "Andrew"
+        },
+        "password": {
+          "type": "string",
+          "example": "ddsadsadasdsjPTTMw.oTyk83/lKfBA4sqD2fw1GH.FByCerZu"
+        },
+        "is_active": {
+          "type": "number",
+          "example": 1
+        },
+        "is_superuser": {
+          "type": "number",
+          "example": 1
+        },
+        "last_login": {
+          "type": "null",
+          "example": null
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "2023-01-19T17:22:57.365Z"
+        },
+        "updatedAt": {
+          "type": "string",
+          "example": "2023-01-19T17:22:57.365Z"
+        }
+      }
+    }
+  }
+}

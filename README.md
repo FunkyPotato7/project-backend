@@ -1,0 +1,46 @@
+# Final-Project-backend (not final name)
+
+This project serves as a backend and is under development, so it has very small (really very) functional.
+
+Currently, you can only get some users from mongo database, but you need login into the server. 
+
+Here is a credential of existing user:
+
+```
+email: "admin@gmail.com"
+password: "admin"
+```
+Also, you can create your own user.
+
+## Running the server
+If you wish to run the server, the first step is installing all dependencies from package.json.
+
+Open a terminal and run the following command:
+
+```
+npm install 
+```
+
+The server is now ready to run. So there is two ways to run. 
+
+The first is default start (without automatic restart):
+
+```
+npm run start
+```
+
+And the second is with nodemon (automatic restart):
+
+```
+npm run start:dev
+```
+
+Both ways should result in output such as:
+
+```
+Server listen 5000
+```
+
+The project is started and now listening at port 5000.
+
+(P.S. you can Also start project without my scripts like: node src/app.js or nodemon src/app.js).
