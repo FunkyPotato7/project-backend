@@ -26,10 +26,13 @@
         ],
         "responses": {
           "200": {
-              "schema": {
-                "$ref": "#/definitions/Paid"
-              },
-              "description": "Successful response"
+            "description": "Successful response",
+            "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Paid"
+                }
+            }
             },
           "400": {
             "description": "Bad request",
