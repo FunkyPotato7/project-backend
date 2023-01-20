@@ -7,7 +7,7 @@ const paidScheme = new Schema(
         course: { type: String },
         course_format: { type: String },
         course_type: { type: String },
-        created_at: { type: String },
+        created_at: { type: String, required: true },
         email: { type: String },
         msg: { type: String },
         name: { type: String },

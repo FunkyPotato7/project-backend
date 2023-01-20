@@ -18,7 +18,7 @@ app.use('/auth', authRouter);
 app.use('/paid', paidRouter);
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerJson));
 
-
+//Global error handler
 app.use((err, req, res, next) => {
    res.status(err.status || 500).json(err.message);
 });
