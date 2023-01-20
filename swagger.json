@@ -22,6 +22,96 @@
             "in": "query",
             "type": "string",
             "required": false
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "course",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "surname",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "phone",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "age",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "course_format",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "course_type",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "created_at",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "utm",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "msg",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "sum",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "already_paid",
+            "in": "query",
+            "type": "string",
+            "required": false
           }
         ],
         "responses": {
@@ -79,22 +169,6 @@
             "description": "Bad request",
             "schema": {
               "$ref": "#/definitions/CustomError"
-            }
-          }
-        }
-      }
-    },
-    "/auth/register": {
-      "post": {
-        "description": "Creation of user",
-        "tags": ["Auth"],
-        "operationId": "authRegister",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "schema": {
-              "$ref": "#/definitions/NewUser"
             }
           }
         }
@@ -205,42 +279,6 @@
         "refreshToken": {
           "type": "string",
           "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYzk1OWRmNDg0YzFkMTY3NjQ2NmJmZSIsImlhdCI6MTY3NDE0Mjk1MiwiZXhwIjoxNjc0MTg2MTUyfQ.-utkXbsK0eu86ZJO9w_YEGhfPkhA0xg6ghHn4Gmi_Ko"
-        }
-      }
-    },
-    "NewUser": {
-      "properties": {
-        "_id": {
-          "type": "string",
-          "example": "63c96898b6060ec233ff7ce3"
-        },
-        "email": {
-          "type": "string",
-          "example": "Andrew"
-        },
-        "password": {
-          "type": "string",
-          "example": "ddsadsadasdsjPTTMw.oTyk83/lKfBA4sqD2fw1GH.FByCerZu"
-        },
-        "is_active": {
-          "type": "number",
-          "example": 1
-        },
-        "is_superuser": {
-          "type": "number",
-          "example": 1
-        },
-        "last_login": {
-          "type": "null",
-          "example": null
-        },
-        "createdAt": {
-          "type": "string",
-          "example": "2023-01-19T17:22:57.365Z"
-        },
-        "updatedAt": {
-          "type": "string",
-          "example": "2023-01-19T17:22:57.365Z"
         }
       }
     }

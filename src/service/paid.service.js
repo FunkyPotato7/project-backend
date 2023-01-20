@@ -1,24 +1,11 @@
 const { Paid } = require('../schema');
+const { paidHelper } = require("../helper");
 
 module.exports = {
     find: async (query) => {
-        const { limit = 10, page = 1, name, age } = query;
+        const { limit = 10, page = 1 } = query;
 
-        let filter = {};
-
-        if (name) {
-            filter = {
-                ...filter,
-                name: { $regex: name }
-            }
-        }
-
-        if (age) {
-            filter = {
-                ...filter,
-                age: { $eq: age }
-            }
-        }
+        const filter = paidHelper.finder(query);
 
         const [data, count] = await Promise.all([
             Paid.find(filter).limit(limit).skip((page - 1) * limit),
