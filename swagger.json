@@ -28,12 +28,9 @@
           "200": {
             "description": "Successful response",
             "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/Paid"
-                }
+                "$ref": "#/definitions/Result"
             }
-            },
+          },
           "400": {
             "description": "Bad request",
             "schema": {
@@ -178,6 +175,24 @@
         "already_paid": {
           "type": "string",
           "example": null
+        }
+      }
+    },
+    "Result": {
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Paid"
+          }
+        },
+        "page": {
+          "type": "number",
+          "example": 1
+        },
+        "count": {
+          "type": "number",
+          "example": 10
         }
       }
     },
