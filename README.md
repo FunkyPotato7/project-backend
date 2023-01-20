@@ -2,7 +2,7 @@
 
 This project serves as a backend and is under development, so it has very small (really very) functional.
 
-Currently, you can only get some users from mongo database, but you need login into the server. 
+Currently, you can only get some information from mongo database, but you need login into the server. 
 
 Here is a credential of existing user:
 
