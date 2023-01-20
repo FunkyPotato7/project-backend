@@ -1,18 +1,18 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const swaggerUI = require('swagger-ui-express');
+const cors = require('cors');
 require('dotenv').config();
 
 const config = require('./config/config');
 const { authRouter, paidRouter } = require('./router');
 const swaggerJson = require('../swagger.json');
 
-
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-
+app.use(cors());
 
 app.use('/auth', authRouter);
 app.use('/paid', paidRouter);
