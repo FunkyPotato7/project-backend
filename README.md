@@ -10,7 +10,6 @@ Here is a credential of existing user:
 email: "admin@gmail.com"
 password: "admin"
 ```
-Also, you can create your own user.
 
 ## Running the server
 If you wish to run the server, the first step is installing all dependencies from package.json.
