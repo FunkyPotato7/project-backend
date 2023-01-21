@@ -4,6 +4,7 @@
     "version": "1.0",
     "title": "Final-Project-API"
   },
+  "schemes": ["http"],
   "paths": {
     "/paid": {
       "get": {
@@ -135,7 +136,15 @@
         "description": "Login",
         "tags": ["Auth"],
         "operationId": "authLogin",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Credential",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Auth"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful response",
@@ -176,6 +185,20 @@
     }
   },
   "definitions": {
+    "Auth": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "admin@gmail.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "admin"
+        }
+
+      }
+    },
     "CustomError": {
       "properties": {
         "statusCode": {
@@ -282,5 +305,15 @@
         }
       }
     }
-  }
+  },
+  "securityDefinitions": {
+    "bearerAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "security": [{
+    "bearerAuth": []
+  }]
 }
