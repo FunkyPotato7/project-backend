@@ -166,7 +166,15 @@
         "description": "Refresh token",
         "tags": ["Auth"],
         "operationId": "authLogin",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Refresh Token",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Refresh"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful response",
@@ -197,6 +205,15 @@
           "example": "admin"
         }
 
+      }
+    },
+    "Refresh": {
+      "type": "object",
+      "properties": {
+        "refreshToken": {
+          "type": "string",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2E1YTE2M2IwODdiZTU5YWE1N2ZmYiIsImlhdCI6MTY3NDM4NjA1MywiZXhwIjoxNjc0NDI5MjUzfQ.CnMMWHKP2K86mXvqSrFebcCLNz6sg36U5xXhgmOb6SE"
+        }
       }
     },
     "CustomError": {
