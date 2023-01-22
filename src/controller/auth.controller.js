@@ -41,9 +41,9 @@ module.exports = {
 
     refresh: async (req, res, next) => {
         try {
-            const { refreshToken, _user_id } = req.tokenInfo;
+            const { refresh, _user_id } = req.tokenInfo;
 
-            await Auth.deleteOne({ refreshToken });
+            await Auth.deleteOne({ refresh });
 
             const tokenPair = authService.generateAccessTokenPair({ id: _user_id });
 

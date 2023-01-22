@@ -7,6 +7,7 @@ module.exports = {
 
         const filter = paidHelper.finder(query);
 
+
         const [data, count] = await Promise.all([
             Paid.find(filter).limit(limit).skip((page - 1) * limit),
             Paid.count(filter).limit(limit),

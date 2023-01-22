@@ -6,6 +6,7 @@ module.exports = {
             course_type, created_at, utm, msg, status, sum, already_paid
             } = query;
 
+
         let filter = {};
 
         if (id) {
@@ -53,7 +54,7 @@ module.exports = {
         if (age) {
             filter = {
                 ...filter,
-                age: { $eq: age }
+                age: { $eq: +age }
             }
         }
 
