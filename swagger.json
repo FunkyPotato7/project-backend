@@ -304,9 +304,13 @@
           "type": "number",
           "example": 1
         },
-        "count": {
+        "count_on_page": {
           "type": "number",
           "example": 10
+        },
+        "total_count": {
+          "type": "number",
+          "example": 759
         }
       }
     },
