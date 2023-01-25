@@ -5,7 +5,7 @@ module.exports = {
     find: async (query) => {
         const { page = 1, limit = 10 } = query;
 
-        const filter = paidHelper.finder(query);
+        const filter = paidHelper.find(query);
 
 
         const [data, count_on_page, total_count] = await Promise.all([

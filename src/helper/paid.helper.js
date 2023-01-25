@@ -1,6 +1,6 @@
 module.exports = {
 
-    finder: (query) => {
+    find: (query) => {
         const {
             id, course, name, surname, email, phone, age, course_format,
             course_type, created_at, utm, msg, status, sum, already_paid
