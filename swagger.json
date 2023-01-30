@@ -22,10 +22,18 @@
             "name": "limit",
             "in": "query",
             "type": "string",
-            "required": false
+            "required": false,
+            "description": "example: limit=30"
           },
           {
-            "name": "id",
+            "name": "order",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "example: order=-name or order=name"
+          },
+          {
+            "name": "_id",
             "in": "query",
             "type": "string",
             "required": false

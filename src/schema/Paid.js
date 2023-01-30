@@ -19,9 +19,10 @@ const paidScheme = new Schema(
     },
 
     {
-        collection: 'paid'
+        collection: 'paid',
     }
 
 );
+
 
 module.exports = model('Paid', paidScheme);

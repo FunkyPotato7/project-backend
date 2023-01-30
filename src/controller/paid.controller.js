@@ -1,5 +1,6 @@
 const { paidService } = require('../service');
 
+
 module.exports = {
     getAll: async (req, res, next) => {
         try {

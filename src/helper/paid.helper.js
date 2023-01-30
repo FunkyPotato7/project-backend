@@ -115,5 +115,15 @@ module.exports = {
         }
 
         return filter;
+    },
+
+    sort: (order) => {
+        let sortObject = {[order]: 1};
+
+        if (order.slice(0, 1) === '-') {
+            sortObject = {[order.slice(1)]: -1}
+        }
+
+        return sortObject;
     }
 };
