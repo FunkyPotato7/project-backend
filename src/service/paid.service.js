@@ -15,6 +15,7 @@ module.exports = {
             Paid.count(filter)
         ]);
 
+
         return {
             data,
             page: +page,

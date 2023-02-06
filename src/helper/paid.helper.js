@@ -26,23 +26,24 @@ module.exports = {
         if (name) {
             filter = {
                 ...filter,
-                name: { $regex: name }
+                name:  { $regex: name, $options: 'i' }
             }
         }
 
         if (surname) {
             filter = {
                 ...filter,
-                surname: { $regex: surname }
+                surname: { $regex: surname, $options: 'i' }
             }
         }
 
         if (email) {
             filter = {
                 ...filter,
-                email: { $regex: email }
+                email: { $regex: email, $options: 'i' }
             }
         }
+
 
         if (phone) {
             filter = {
@@ -103,7 +104,7 @@ module.exports = {
         if (sum) {
             filter = {
                 ...filter,
-                name: { $regex: sum }
+                sum: { $regex: sum }
             }
         }
 
