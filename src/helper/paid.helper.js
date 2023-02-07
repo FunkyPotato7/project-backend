@@ -44,11 +44,11 @@ module.exports = {
             }
         }
 
-
         if (phone) {
+
             filter = {
                 ...filter,
-                phone: { $regex: phone }
+                phone: { $regex: phone.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') }
             }
         }
 
