@@ -13,7 +13,6 @@ password: "admin"
 
 To find out what this project can do and how to use it, open http://localhost:5000/docs.
 
-If you opened the project on a different port, enter this port instead of 5000.
 
 ## Running the server
 If you wish to run the server, the first step is installing all dependencies from package.json.
