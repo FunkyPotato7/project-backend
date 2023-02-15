@@ -8,5 +8,9 @@ router.post('/login', authMiddleware.isLoginBodyValid, userMiddleware.getUserDyn
 
 router.post('/refresh', authMiddleware.checkRefreshToken, authController.refresh);
 
+router.post('/logout', authMiddleware.checkAccessToken, authController.logout);
+
+router.post('/activate/:token', authMiddleware.checkActivateToken, authController.activate);
+
 
 module.exports = router;

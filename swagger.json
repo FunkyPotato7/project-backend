@@ -1,15 +1,228 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "1.0",
+    "version": "V2.0",
     "title": "Final-Project-API"
   },
   "schemes": ["http"],
   "paths": {
+    "/admin/users": {
+      "get": {
+        "description": "Get all users (permission only for superuser)",
+        "tags": ["Admin"],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Permission denied"
+          }
+        }
+      }
+    },
+    "/admin/create": {
+      "post": {
+        "description": "Create user (permission only for superuser)",
+        "tags": ["Admin"],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Create"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "$ref": "#/definitions/CreatedUser"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/CustomError"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Permission denied"
+          }
+        }
+      }
+    },
+    "/admin/users/{id}/re_token": {
+      "get": {
+        "description": "Recreate expired action token or create token for changing password (permission only for superuser)",
+        "tags": ["Admin"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true,
+            "description": "A unique user id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "$ref": "#/definitions/Action"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Permission denied"
+          }
+        }
+      }
+    },
+    "/auth/activate/{token}": {
+      "post": {
+        "description": "Activate user (token stay alive 10m)",
+        "tags": [
+          "Auth"
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Activate"
+            }
+          },
+          {
+            "name": "actionToken",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Activated"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "description": "Login",
+        "tags": [
+          "Auth"
+        ],
+        "operationId": "authLogin",
+        "parameters": [
+          {
+            "name": "Credential",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Auth"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "$ref": "#/definitions/TokenPair"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/CustomError"
+            }
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "description": "log out form account",
+        "tags": [
+          "Auth"
+        ],
+        "parameters": [
+          {
+            "name": "accessToken",
+            "in": "header",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "description": "Refresh token",
+        "tags": [
+          "Auth"
+        ],
+        "operationId": "authRefresh",
+        "parameters": [
+          {
+            "name": "Refresh Token",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Refresh"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "$ref": "#/definitions/TokenPair"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/CustomError"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "/paid": {
       "get": {
         "description": "Get all paids",
-        "tags": ["Paid"],
+        "tags": [
+          "Paid"
+        ],
         "operationId": "getAllPaids",
         "parameters": [
           {
@@ -127,7 +340,7 @@
           "200": {
             "description": "Successful response",
             "schema": {
-                "$ref": "#/definitions/Result"
+              "$ref": "#/definitions/Result"
             }
           },
           "400": {
@@ -135,66 +348,87 @@
             "schema": {
               "$ref": "#/definitions/CustomError"
             }
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
     },
-    "/auth/login": {
-      "post": {
-        "description": "Login",
-        "tags": ["Auth"],
-        "operationId": "authLogin",
+    "/paid/{id}": {
+      "get": {
+        "description": "Get one paid by id",
+        "tags": [
+          "Paid"
+        ],
+        "operationId": "paid-id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "$ref": "#/definitions/Paid"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/CustomError"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "put": {
+        "description": "Update paid by id",
+        "tags": [
+          "Paid"
+        ],
+        "operationId": "paid-id-update",
         "parameters": [
           {
             "name": "Credential",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/Auth"
+              "$ref": "#/definitions/UpdateBody"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Successful response",
-            "schema": {
-              "$ref": "#/definitions/TokenPair"
-            }
+            "description": "Successful response"
           },
-          "400": {
-            "description": "Bad request",
-            "schema": {
-              "$ref": "#/definitions/CustomError"
-            }
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
     },
-    "/auth/refresh": {
-      "post": {
-        "description": "Refresh token",
-        "tags": ["Auth"],
-        "operationId": "authLogin",
-        "parameters": [
-          {
-            "name": "Refresh Token",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/Refresh"
-            }
-          }
+    "/users/me": {
+      "get": {
+        "description": "Get authenticated user",
+        "tags": [
+          "Users"
         ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "Successful response",
             "schema": {
-              "$ref": "#/definitions/TokenPair"
+              "$ref": "#/definitions/User"
             }
           },
-          "400": {
-            "description": "Bad request",
-            "schema": {
-              "$ref": "#/definitions/CustomError"
-            }
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
@@ -215,12 +449,30 @@
 
       }
     },
+    "Access": {
+      "type": "object",
+      "properties": {
+        "refreshToken": {
+          "type": "string",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2E1YTE2M2IwODdiZTU5YWE1N2ZmYiIsImlhdCI6MTY3NjQwMDYwNSwiZXhwIjoxNjc2NDIyMjA1fQ.R2hcW9CaNDxq7uAK53b-HZ8U8D1Hedx8QrRbK3lj1MU"
+        }
+      }
+    },
     "Refresh": {
       "type": "object",
       "properties": {
         "refreshToken": {
           "type": "string",
           "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2E1YTE2M2IwODdiZTU5YWE1N2ZmYiIsImlhdCI6MTY3NDM4NjA1MywiZXhwIjoxNjc0NDI5MjUzfQ.CnMMWHKP2K86mXvqSrFebcCLNz6sg36U5xXhgmOb6SE"
+        }
+      }
+    },
+    "Action": {
+      "type": "object",
+      "properties": {
+        "actionToken": {
+          "type": "string",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2ViYzA4ZWRlNGU0NWRjNDg0MDM0YTEiLCJpYXQiOjE2NzYzOTQ2MzgsImV4cCI6MTY3NjM5NTIzOH0.wCcG62Rp0-W5yZZiRAFboxo8D8dcZjIshWh0NfMH2AY"
         }
       }
     },
@@ -297,6 +549,170 @@
         "already_paid": {
           "type": "string",
           "example": null
+        },
+        "comments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "63ebdfb749e4c392f8557bc3"
+              },
+              "comment": {
+                "type": "string",
+                "example": "some comment"
+              },
+              "_paid_id": {
+                "type": "string",
+                "example": "63ebaabe03a5c7545d29f7cc"
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "2023-02-14T19:23:35.878Z"
+              }
+            }
+          }
+        },
+        "manager": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "63ca5a163b087be59aa57ffd"
+              },
+              "name": {
+                "type": "string",
+                "example": "Admin"
+              },
+              "surname": {
+                "type": "string",
+                "example": "Admin"
+              },
+              "_user_id": {
+                "type": "string",
+                "example": "63ca5a163b087be59aa57ffb"
+              }
+            }
+          }
+        }
+      }
+    },
+    "User": {
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "63ca5a163b087be59aa57ffb"
+        },
+        "email": {
+          "type": "string",
+          "example": "admin@gmail.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "somePassword444"
+        },
+        "is_active": {
+          "type": "number",
+          "example": 1
+        },
+        "is_superuser": {
+          "type": "number",
+          "example": 1
+        },
+        "last_login": {
+          "type": "string",
+          "example": "2023-01-20T09:08:38.505Z"
+        },
+        "profile": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "63ca5a163b087be59aa57ffd"
+              },
+              "name": {
+                "type": "string",
+                "example": "Admin"
+              },
+              "surname": {
+                "type": "string",
+                "example": "Admin"
+              },
+              "_user_id": {
+                "type": "string",
+                "example": "63ca5a163b087be59aa57ffb"
+              }
+            }
+          }
+        }
+      }
+    },
+    "UpdateBody": {
+      "properties": {
+        "course": {
+          "type": "string",
+          "example": "FS"
+        },
+        "name": {
+          "type": "string",
+          "example": "Лідія!"
+        },
+        "surname": {
+          "type": "string",
+          "example": "степанов"
+        },
+        "email": {
+          "type": "string",
+          "example": "zep77@mail.ru"
+        },
+        "phone": {
+          "type": "string",
+          "example": "8(977) 291-25-38"
+        },
+        "age": {
+          "type": "number",
+          "example": 25
+        },
+        "course_format": {
+          "type": "string",
+          "example": "static"
+        },
+        "course_type": {
+          "type": "string",
+          "example": "pro"
+        },
+        "created_at": {
+          "type": "string",
+          "example": "2021-08-04T18:18:23Z"
+        },
+        "utm": {
+          "type": "string",
+          "example": "event"
+        },
+        "msg": {
+          "type": "string",
+          "example": null
+        },
+        "status": {
+          "type": "string",
+          "example": "Новый"
+        },
+        "sum": {
+          "type": "string",
+          "example": null
+        },
+        "already_paid": {
+          "type": "string",
+          "example": null
+        },
+        "comment": {
+          "type": "string",
+          "example": "Some comment"
         }
       }
     },
@@ -324,6 +740,9 @@
     },
     "TokenPair": {
       "properties": {
+        "user": {
+          "$ref": "#/definitions/User"
+        },
         "accessToken": {
           "type": "string",
           "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYzk1OWRmNDg0YzFkMTY3NjQ2NmJmZSIsImlhdCI6MTY3NDE0Mjk1MiwiZXhwIjoxNjc0MTY0NTUyfQ.mAkb50poEewU_6meI-7YZCS899GtLMYALOtgzIeKkDc"
@@ -331,6 +750,41 @@
         "refreshToken": {
           "type": "string",
           "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYzk1OWRmNDg0YzFkMTY3NjQ2NmJmZSIsImlhdCI6MTY3NDE0Mjk1MiwiZXhwIjoxNjc0MTg2MTUyfQ.-utkXbsK0eu86ZJO9w_YEGhfPkhA0xg6ghHn4Gmi_Ko"
+        }
+      }
+    },
+    "CreatedUser": {
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/User"
+        },
+        "actionToken": {
+          "type": "string",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2ViYzA4ZWRlNGU0NWRjNDg0MDM0YTEiLCJpYXQiOjE2NzYzOTQ2MzgsImV4cCI6MTY3NjM5NTIzOH0.wCcG62Rp0-W5yZZiRAFboxo8D8dcZjIshWh0NfMH2AY"
+        }
+      }
+    },
+    "Create": {
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "Admin@gmail.com"
+        },
+        "name": {
+          "type": "string",
+          "example": "Admin"
+        },
+        "surname": {
+          "type": "string",
+          "example": "Admin"
+        }
+      }
+    },
+    "Activate": {
+      "properties": {
+        "password": {
+          "type": "string",
+          "example": "somePassword444"
         }
       }
     }

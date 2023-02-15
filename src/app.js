@@ -5,7 +5,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const config = require('./config/config');
-const { authRouter, paidRouter } = require('./router');
+const { authRouter, paidRouter, userRouter, adminRouter } = require('./router');
 const swaggerJson = require('../swagger.json');
 
 const app = express();
@@ -16,6 +16,8 @@ app.use(cors());
 
 app.use('/auth', authRouter);
 app.use('/paid', paidRouter);
+app.use('/users', userRouter);
+app.use('/admin', adminRouter);
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerJson));
 
 //Global error handler

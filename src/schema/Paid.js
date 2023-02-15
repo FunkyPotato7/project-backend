@@ -2,20 +2,20 @@ const { Schema, model } = require('mongoose');
 
 const paidScheme = new Schema(
     {
-        age: { type: Number, min: 0, max: 60 },
-        already_paid: { type: Boolean },
-        course: { type: String },
-        course_format: { type: String },
-        course_type: { type: String },
+        age: { type: Number, min: 0, max: 60, default: null },
+        already_paid: { type: Boolean, default: null },
+        course: { type: String, default: null },
+        course_format: { type: String, default: null },
+        course_type: { type: String, default: null },
         created_at: { type: String, required: true },
-        email: { type: String },
-        msg: { type: String },
-        name: { type: String },
-        phone: { type: String },
-        status: { type: String },
-        sum: { type: Number },
-        surname: { type: String },
-        utm: { type: String },
+        email: { type: String, required: true },
+        msg: { type: String, default: null },
+        name: { type: String, default: null },
+        phone: { type: String, default: null },
+        status: { type: String, default: null },
+        sum: { type: Number, default: null },
+        surname: { type: String, default: null },
+        _manager_id: { type: Schema.Types.ObjectId, ref: 'profiles', default: null }
     },
 
     {

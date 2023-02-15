@@ -1,18 +1,18 @@
 module.exports = {
 
-    find: (query) => {
+    find: (query, userId) => {
         const {
-            id, course, name, surname, email, phone, age, course_format,
-            course_type, created_at, utm, msg, status, sum, already_paid
-            } = query;
+            _id, course, name, surname, email, phone, age, course_format, course_type,
+            created_at, utm, msg, status, sum, already_paid, my
+        } = query;
 
 
         let filter = {};
 
-        if (id) {
+        if (_id) {
             filter = {
                 ...filter,
-                _id: { $regex: id }
+                _id: _id
             }
         }
 
@@ -45,7 +45,6 @@ module.exports = {
         }
 
         if (phone) {
-
             filter = {
                 ...filter,
                 phone: { $regex: phone.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') }
@@ -114,6 +113,14 @@ module.exports = {
                 already_paid: { $regex: already_paid }
             }
         }
+
+        if (my === 'true') {
+            filter = {
+                ...filter,
+                _manager_id: userId
+            }
+        }
+
 
         return filter;
     },

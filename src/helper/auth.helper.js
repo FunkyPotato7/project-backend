@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 
 const CustomError = require("../error/CustomError");
+const { ACTIVATE_KEY } = require("../config/config");
+const { tokenTypeEnum } = require("../enum");
 
 module.exports = {
 
@@ -12,5 +14,17 @@ module.exports = {
         if (!isPasswordsSame) {
             throw new CustomError('Wrong password', 400);
         }
+    },
+
+    getSecretWord: (actionType) => {
+        let secretWord = '';
+
+        switch (actionType) {
+            case tokenTypeEnum.activate:
+                secretWord = ACTIVATE_KEY;
+                break
+        }
+
+        return secretWord;
     }
 };

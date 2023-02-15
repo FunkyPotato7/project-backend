@@ -1,5 +1,5 @@
 module.exports = {
     authHelper: require('./auth.helper'),
-    authNormalizator: require('./auth.normalizator'),
+    userNormalizator: require('./user.normalizator'),
     paidHelper: require('./paid.helper')
 };

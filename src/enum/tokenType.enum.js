@@ -1,4 +1,5 @@
 module.exports = {
-    accessToken: 'accessToken',
-    refreshToken: 'refreshToken'
+    access: 'accessToken',
+    refresh: 'refreshToken',
+    activate: 'activateToken',
 };

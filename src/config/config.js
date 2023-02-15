@@ -8,5 +8,6 @@ module.exports = {
 
     ACCESS_KEY: process.env.ACCESS_KEY,
     REFRESH_KEY: process.env.REFRESH_KEY,
+    ACTIVATE_KEY: process.env.ACTIVATE_KEY,
 
 }

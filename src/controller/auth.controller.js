@@ -1,23 +1,9 @@
-const { authService } = require("../service");
+const { authService, userService } = require("../service");
 const { authHelper } = require("../helper");
-const { Auth, User, Profile } = require("../schema");
+const { activate } = require("../enum/tokenType.enum");
 
 
 module.exports = {
-    register: async (req, res, next) => {
-        try {
-            const userInfo = req.body;
-
-            const hashedPassword = await authHelper.hashPassword(userInfo.password);
-
-            const user = await User.create({ ...userInfo, password: hashedPassword });
-            await Profile.create({ name: userInfo.name, surname: userInfo.surname, _user_id: user._id});
-
-            res.status(201).json(user);
-        } catch (e) {
-            next(e);
-        }
-    },
 
     login: async (req, res, next) => {
         try {
@@ -27,11 +13,12 @@ module.exports = {
 
             const tokenPair = authService.generateAccessTokenPair({ id: user._id });
 
-            await Auth.create({ ...tokenPair, _user_id: user._id });
+            await authService.createAccessTokensInfo({ ...tokenPair, _user_id: user._id });
 
-            await User.findByIdAndUpdate(user._id, { last_login: Date.now() });
-
-            res.status(201).json({
+            await userService.updateById({_id: user._id}, { last_login: Date.now() });
+            
+            res.status(202).json({
+                user,
                 ...tokenPair
             });
         } catch (e) {
@@ -43,16 +30,58 @@ module.exports = {
         try {
             const { refresh, _user_id } = req.tokenInfo;
 
-            await Auth.deleteOne({ refresh });
+            await authService.deleteAccessTokens({ refresh });
 
             const tokenPair = authService.generateAccessTokenPair({ id: _user_id });
 
-            await Auth.create({ ...tokenPair, _user_id });
+            await authService.createAccessTokensInfo({ ...tokenPair, _user_id });
 
             res.status(201).json(tokenPair);
         } catch (e) {
             next(e);
         }
     },
+
+    logout: async (req, res, next) => {
+        try {
+            const { accessToken } = req.tokenInfo;
+
+            await authService.deleteAccessTokens({ accessToken });
+
+            res.sendStatus(204);
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    activate: async (req, res, next) => {
+        try {
+            const { body } = req;
+
+            const hashedPassword = await authHelper.hashPassword(body.password);
+
+            await userService.updateById({ _id: body._id }, { password: hashedPassword, is_active: 1 } );
+
+            await authService.deleteActionToken({ _user_id: body._id });
+
+            res.status(201).json('Activated');
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    recreate: async (req, res, next) => {
+        try {
+            const { userId } = req;
+
+            const actionToken = authService.generateActionToken(activate, { _id: userId } );
+
+            await authService.createActionTokenInfo({ _user_id: userId, token: actionToken, tokenType: activate });
+
+            res.status(201).json({ actionToken });
+        } catch (e) {
+            next(e);
+        }
+    }
 
 };
