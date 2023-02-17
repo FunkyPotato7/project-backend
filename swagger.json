@@ -355,6 +355,134 @@
         }
       }
     },
+    "/paid/excel": {
+      "get": {
+        "description": "Create excel file",
+        "tags": [
+          "Paid"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "example: limit=30"
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "example: order=-name or order=name"
+          },
+          {
+            "name": "_id",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "course",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "surname",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "phone",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "age",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "course_format",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "course_type",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "created_at",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "utm",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "msg",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "sum",
+            "in": "query",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "already_paid",
+            "in": "query",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return excel file"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "/paid/{id}": {
       "get": {
         "description": "Get one paid by id",
