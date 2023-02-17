@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const { ACCESS_KEY, REFRESH_KEY } = require("../config/config");
 const { access, refresh} = require("../enum/tokenType.enum");
 const CustomError = require("../error/CustomError");
-const { Auth, ActionToken } = require("../schema");
+const { Auth, ActionToken } = require("../model");
 const { authHelper } = require("../helper");
 
 
@@ -49,27 +49,27 @@ module.exports = {
         }
     },
 
-    findAccessTokens: (token) => {
+    findAccessTokens: async (token) => {
         return Auth.findOne(token);
     },
 
-    createAccessTokensInfo: (tokensInfo) => {
+    createAccessTokensInfo: async (tokensInfo) => {
         return Auth.create(tokensInfo);
     },
 
-    deleteAccessTokens: (filter) => {
+    deleteAccessTokens: async (filter) => {
         return Auth.deleteOne(filter);
     },
 
-    findActionToken: (token) => {
+    findActionToken: async (token) => {
         return ActionToken.findOne(token);
     },
 
-    createActionTokenInfo: (tokenInfo) => {
+    createActionTokenInfo: async (tokenInfo) => {
         return ActionToken.create(tokenInfo);
     },
 
-    deleteActionToken: (filter) => {
+    deleteActionToken: async (filter) => {
         return ActionToken.deleteOne(filter);
     }
 };

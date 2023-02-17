@@ -1,4 +1,4 @@
-const { User, Profile } = require("../schema");
+const { User, Profile } = require("../model");
 
 module.exports = {
 

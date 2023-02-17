@@ -61,14 +61,14 @@ module.exports = {
         if (course_format) {
             filter = {
                 ...filter,
-                course_format: { $regex: course_format }
+                course_format: { $regex: course_format, $options: 'i' }
             }
         }
 
         if (course_type) {
             filter = {
                 ...filter,
-                course_type: { $regex: course_type }
+                course_type: { $regex: course_type, $options: 'i' }
             }
         }
 
@@ -96,7 +96,7 @@ module.exports = {
         if (status) {
             filter = {
                 ...filter,
-                status: { $regex: status }
+                status: { $regex: status, $options: 'i' }
             }
         }
 
@@ -107,10 +107,10 @@ module.exports = {
             }
         }
 
-        if (already_paid) {
+        if (already_paid === 'true') {
             filter = {
                 ...filter,
-                already_paid: { $regex: already_paid }
+                already_paid: true
             }
         }
 
@@ -119,8 +119,8 @@ module.exports = {
                 ...filter,
                 _manager_id: userId
             }
-        }
 
+        }
 
         return filter;
     },

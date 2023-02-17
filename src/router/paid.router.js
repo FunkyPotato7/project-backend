@@ -6,6 +6,8 @@ const { authMiddleware, paidMiddleware } = require('../middleware');
 
 router.get('/', authMiddleware.checkAccessToken, paidController.getAll);
 
+router.get('/excel', authMiddleware.checkAccessToken, paidController.export);
+
 router.get('/:id', paidMiddleware.isPaidIdValid, authMiddleware.checkAccessToken, paidController.getOneById);
 
 router.put('/:id',

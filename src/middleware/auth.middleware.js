@@ -59,7 +59,7 @@ module.exports = {
 
     checkAccessToken: async (req, res, next) => {
         try {
-            let accessToken = req.get('Authorization');
+            const accessToken = req.get('Authorization');
 
             if (!accessToken) {
                 throw new CustomError('No token', 401);
