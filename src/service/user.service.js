@@ -16,6 +16,9 @@ module.exports = {
                 }
             },
             {
+                $unwind: {path: "$profile", preserveNullAndEmptyArrays: true}
+            },
+            {
                 $unset: ["updatedAt"]
             }
         ]);
@@ -33,6 +36,9 @@ module.exports = {
                     foreignField: '_user_id',
                     as: 'profile'
                 }
+            },
+            {
+                $unwind: {path: "$profile", preserveNullAndEmptyArrays: true}
             },
             {
                 $unset: ["updatedAt"]
