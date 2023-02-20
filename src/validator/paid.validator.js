@@ -6,7 +6,7 @@ module.exports = {
     updateValidator: Joi.object({
         name: Joi.string().min(2).max(20).optional(),
         surname: Joi.string().min(2).max(20).optional(),
-        email: Joi.string().regex(regexpEnum.EMAIL).lowercase().trim().required(),
+        email: Joi.string().regex(regexpEnum.EMAIL).lowercase().trim(),
         phone: Joi.string().optional(),
         age: Joi.number().optional(),
         group: Joi.string().optional(),

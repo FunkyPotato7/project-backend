@@ -35,7 +35,7 @@ module.exports = {
                     $unwind: {path: "$manager", preserveNullAndEmptyArrays: true}
                 },
                 {
-                    $unset: ["manager_id", "comments.updatedAt", "comments._paid_id"],
+                    $unset: ["_manager_id", "comments.updatedAt", "comments._paid_id"],
                 },
                 {
                     $sort: sortObject
@@ -60,7 +60,7 @@ module.exports = {
     },
 
     findOneById: async (_id) => {
-        return Paid.aggregate([
+        const result = await Paid.aggregate([
             {
                 $match: { _id }
             },
@@ -84,12 +84,42 @@ module.exports = {
                 $unwind: {path: "$manager", preserveNullAndEmptyArrays: true}
             },
             {
-                $unset: ["manager_id", "comments.updatedAt", "comments._paid_id"]
+                $unset: ["_manager_id", "comments.updatedAt", "comments._paid_id"]
             }
-       ])
+       ]);
+         return result[0];
     },
 
     updateById: async (id, newInfo) => {
-       return Paid.updateOne(id, newInfo);
+        const { _id } = await Paid.findOneAndUpdate(id, newInfo);
+
+        const result = await Paid.aggregate([
+            {
+                $match: { _id }
+            },
+            {
+                $lookup: {
+                    from: 'comments',
+                    localField: '_id',
+                    foreignField: '_paid_id',
+                    as: 'comments'
+                }
+            },
+            {
+                $lookup: {
+                    from: 'profiles',
+                    localField: '_manager_id',
+                    foreignField: '_id',
+                    as: 'manager'
+                }
+            },
+            {
+                $unwind: {path: "$manager", preserveNullAndEmptyArrays: true}
+            },
+            {
+                $unset: ["_manager_id", "comments.updatedAt", "comments._paid_id"]
+            }
+       ]);
+        return result[0];
     }
 };

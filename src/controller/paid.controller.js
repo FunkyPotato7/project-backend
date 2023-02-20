@@ -39,7 +39,7 @@ module.exports = {
 
             const { profile } = await userService.findOne({_id: tokenInfo._user_id});
 
-            body._manager_id = profile[0]._id;
+            body._manager_id = profile._id;
 
             if (body.status === 'Новый') {
                 body._manager_id = null;
@@ -47,13 +47,13 @@ module.exports = {
                 await commentService.deleteById({_paid_id: _id});
             }
 
-            await paidService.updateById({ _id }, body);
-
             if (body.comment) {
                 await commentService.create({ _paid_id: _id, comment: body.comment });
             }
 
-            res.status(200).json('Updated');
+            const newPaid = await paidService.updateById({ _id }, body);
+
+            res.status(200).json(newPaid);
         } catch (e) {
             next(e);
         }
