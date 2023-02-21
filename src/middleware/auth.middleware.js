@@ -23,6 +23,7 @@ module.exports = {
 
     isCreateBodyValid: async (req, res, next) => {
         try {
+
             const validate = await authValidator.createValidator.validate(req.body);
 
             if (validate.error) {

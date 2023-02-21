@@ -334,6 +334,12 @@
             "in": "query",
             "type": "string",
             "required": false
+          },
+          {
+            "name": "my",
+            "in": "query",
+            "type": "boolean",
+            "required": false
           }
         ],
         "responses": {
@@ -471,6 +477,12 @@
             "in": "query",
             "type": "string",
             "required": false
+          },
+          {
+            "name": "my",
+            "in": "query",
+            "type": "boolean",
+            "required": false
           }
         ],
         "responses": {
@@ -524,7 +536,7 @@
         "operationId": "paid-id-update",
         "parameters": [
           {
-            "name": "Credential",
+            "name": "data",
             "in": "body",
             "schema": {
               "$ref": "#/definitions/UpdateBody"
