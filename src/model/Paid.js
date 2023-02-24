@@ -1,9 +1,10 @@
 const { Schema, model } = require('mongoose');
 
+
 const paidScheme = new Schema(
     {
         age: { type: Number, min: 0, max: 60, default: null },
-        already_paid: { type: Boolean, default: null },
+        already_paid: { type: Number, default: null },
         course: { type: String, default: null },
         course_format: { type: String, default: null },
         course_type: { type: String, default: null },
