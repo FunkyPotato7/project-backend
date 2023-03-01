@@ -103,14 +103,14 @@ module.exports = {
         if (sum) {
             filter = {
                 ...filter,
-                sum: { $regex: sum }
+                sum: { $eq: sum }
             }
         }
 
-        if (already_paid === 'true') {
+        if (already_paid) {
             filter = {
                 ...filter,
-                already_paid: true
+                already_paid: { $eq: already_paid }
             }
         }
 

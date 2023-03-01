@@ -10,7 +10,7 @@ module.exports = {
         const sortObject = paidHelper.sort(order);
 
 
-        let [data, count_on_page, total_count] = await Promise.all([
+        let [data, count_on_page, total_count, statuses] = await Promise.all([
             Paid.aggregate([
                 {
                     $match: filter,
@@ -48,15 +48,89 @@ module.exports = {
                 },
             ]),
             Paid.count(filter).limit(parsedLimit),
-            Paid.count(filter)
+            Paid.count(filter),
         ]);
 
         return {
             data,
             page: +page,
             count_on_page,
-            total_count
+            total_count,
         };
+    },
+
+    getStatusStatistic: async () => {
+        const result = await Paid.aggregate([
+            {
+                $group: {
+                    _id: {
+                        status: {
+                            $cond: [
+                                { $or: [{ $eq: ["$status", "New"] }, { $eq: ["$status", null] }] },
+                                "Free",
+                                "$status"
+                            ]
+                        }
+                    },
+                    count: { $sum: 1 }
+                }
+            },
+            {
+                $group: {
+                    _id: null,
+                    total_count: { $sum: "$count" },
+                    status_count: { $push: { status: "$_id.status", count: "$count" } }
+                }
+            },
+            {
+                $addFields: {
+                    "status_count": {
+                        $concatArrays: [
+                            "$status_count",
+                            {
+                                $map: {
+                                    input: {
+                                        $setDifference: [
+                                            ["Agree", "Disagree", "Doubling", "Free", "In work"],
+                                            "$status_count.status"
+                                        ]
+                                    },
+                                    as: "status",
+                                    in: {
+                                        status: "$$status",
+                                        count: 0
+                                    }
+                                }
+                            }
+                        ],
+                    },
+                }
+            },
+            {
+                $unwind: "$status_count"
+            },
+            {
+                $sort: {
+                    "status_count.status": 1,
+                }
+            },
+            {
+                $group: {
+                    _id: null,
+                    status_count: { $push: "$status_count"},
+                    total_count: { $first: "$total_count" }
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    status_count: "$status_count",
+                    total_count: 1
+                }
+            },
+        ]);
+
+        return result[0];
     },
 
     findOneById: async (_id) => {

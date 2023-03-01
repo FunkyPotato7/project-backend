@@ -15,6 +15,13 @@ router.post('/create',
     userController.create
 );
 
+router.put('/users/:userId',
+    userMiddleware.isUserIdValid,
+    authMiddleware.checkAccessToken,
+    authMiddleware.checkPermission,
+    authController.block
+);
+
 router.get('/users/:userId/re_token',
     userMiddleware.isUserIdValid,
     authMiddleware.checkAccessToken,

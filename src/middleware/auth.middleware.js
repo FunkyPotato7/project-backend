@@ -1,5 +1,5 @@
-const { authService, userService } = require('../service');
 const CustomError = require("../error/CustomError");
+const { authService, userService } = require('../service');
 const { authValidator } = require("../validator");
 const { tokenTypeEnum } = require("../enum");
 
@@ -38,26 +38,6 @@ module.exports = {
         }
     },
 
-    checkPermission: async (req, res, next) => {
-        try {
-            const { _user_id } = req.tokenInfo;
-
-            const user = await userService.findOne({ _id: _user_id });
-
-            if (!user) {
-                throw new CustomError('User not found', 404);
-            }
-
-            if (user.is_superuser !== 1) {
-                throw new CustomError('Permission denied', 403);
-            }
-
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-
     checkAccessToken: async (req, res, next) => {
         try {
             const accessToken = req.get('Authorization');
@@ -66,12 +46,12 @@ module.exports = {
                 throw new CustomError('No token', 401);
             }
 
-            authService.checkToken(accessToken);
+            authService.checkAccessToken(accessToken);
 
             const tokenInfo = await authService.findAccessTokens({ accessToken });
 
             if (!tokenInfo) {
-                throw new CustomError('Wrong token', 401);
+                throw new CustomError('Wrong access token', 401);
             }
 
             req.tokenInfo = tokenInfo;
@@ -90,12 +70,12 @@ module.exports = {
                 throw new CustomError('No token', 401);
             }
 
-            authService.checkToken(refreshToken, tokenTypeEnum.refresh);
+            authService.checkAccessToken(refreshToken, tokenTypeEnum.refresh);
 
             const tokenInfo = await authService.findAccessTokens({ refreshToken });
 
             if (!tokenInfo) {
-                throw new CustomError('Wrong token', 401);
+                throw new CustomError('Wrong refresh token', 401);
             }
 
             req.tokenInfo = tokenInfo;
@@ -128,6 +108,25 @@ module.exports = {
         } catch (e) {
             next(e);
         }
-    }
+    },
 
+    checkPermission: async (req, res, next) => {
+        try {
+            const { _user_id } = req.tokenInfo;
+
+            const user = await userService.findOne({ _id: _user_id });
+
+            if (!user) {
+                throw new CustomError('User is not exist', 404);
+            }
+
+            if (user.is_superuser !== 1) {
+                throw new CustomError('Permission denied', 403);
+            }
+
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
 };

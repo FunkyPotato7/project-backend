@@ -6,7 +6,7 @@ const { userMiddleware, authMiddleware } = require("../middleware");
 
 router.get('/me',
     authMiddleware.checkAccessToken,
-    userMiddleware.getUserDynamically('_user_id', 'tokenInfo', '_id'),
+    userMiddleware.checkUserDynamically('_user_id', 'tokenInfo', '_id'),
     userController.getOneById
 );
 

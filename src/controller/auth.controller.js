@@ -82,6 +82,20 @@ module.exports = {
         } catch (e) {
             next(e);
         }
+    },
+
+    block: async (req, res, next) => {
+        try {
+            const { userId } = req;
+
+            const user = await userService.findOneById({ _id: userId});
+
+            const update = await userService.updateById({ _id: userId }, { is_active: !user.is_active });
+
+            res.status(200).json(update);
+        } catch (e) {
+            next(e);
+        }
     }
 
 };

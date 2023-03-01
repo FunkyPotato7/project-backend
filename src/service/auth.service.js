@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken');
 
+const CustomError = require("../error/CustomError");
 const { ACCESS_KEY, REFRESH_KEY } = require("../config/config");
 const { access, refresh} = require("../enum/tokenType.enum");
-const CustomError = require("../error/CustomError");
 const { Auth, ActionToken } = require("../model");
 const { authHelper } = require("../helper");
 
@@ -25,7 +25,7 @@ module.exports = {
         return jwt.sign(dataToSign, secretWord, { expiresIn: '10m' });
     },
 
-    checkToken: (token = '', tokenType = access) => {
+    checkAccessToken: (token = '', tokenType = access) => {
         try {
             let key = '';
 

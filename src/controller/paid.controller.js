@@ -37,11 +37,13 @@ module.exports = {
         try {
             const { _id, body, tokenInfo } = req;
 
+            console.log(body);
+
             const { profile } = await userService.findOne({_id: tokenInfo._user_id});
 
             body._manager_id = profile._id;
 
-            if (body.status === 'Новый') {
+            if (body.status === 'New') {
                 body._manager_id = null;
                 body.comment = null;
                 await commentService.deleteById({_paid_id: _id});
@@ -89,6 +91,16 @@ module.exports = {
             await workbook.xlsx.writeFile(filePath);
 
             res.status(200).download(filePath);
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    getStatistic: async (req, res, next) => {
+        try {
+            const statistic = await paidService.getStatusStatistic();
+
+            res.status(200).json(statistic);
         } catch (e) {
             next(e);
         }

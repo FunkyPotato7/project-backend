@@ -1,18 +1,22 @@
+const CustomError = require("../error/CustomError");
 const { userService } = require("../service");
 const { userNormalizator } = require("../helper");
-const CustomError = require("../error/CustomError");
-const {  commonValidator } = require("../validator");
+const { commonValidator } = require("../validator");
 
 module.exports = {
 
-    getUserDynamically: (fieldName, from = 'body', dbField = fieldName) => async (req, res, next) => {
+    checkUserDynamically: (fieldName, from = 'body', dbField = fieldName) => async (req, res, next) => {
         try {
             const fieldToSearch = req[from][fieldName];
 
             const user = await userService.findOne({ [dbField]: fieldToSearch });
 
             if (!user) {
-                throw new CustomError('User not found', 404);
+                throw new CustomError('User is not exist', 404);
+            }
+
+            if (!user.is_active) {
+                throw new CustomError('You are banned', 403);
             }
 
             req.user = user;
