@@ -31,6 +31,7 @@ module.exports = {
                             $match: {
                                 $and: [
                                     { status: { $ne: null } },
+                                    { status: { $ne: "New" }}
                                 ]
                             }
                         },
@@ -164,6 +165,7 @@ module.exports = {
                             $match: {
                                 $and: [
                                     { status: { $ne: null } },
+                                    { status: { $ne: "New" }}
                                 ]
                             }
                         },
@@ -310,6 +312,7 @@ module.exports = {
                             $match: {
                                 $and: [
                                     { status: { $ne: null } },
+                                    { status: { $ne: "New" }}
                                 ]
                             }
                         },

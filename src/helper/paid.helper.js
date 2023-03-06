@@ -3,7 +3,7 @@ module.exports = {
     find: (query, userId) => {
         const {
             _id, course, name, surname, email, phone, age, course_format, course_type,
-            created_at, utm, msg, status, sum, already_paid, my
+            created_at, utm, msg, status, group, sum, already_paid, my
         } = query;
 
 
@@ -19,7 +19,7 @@ module.exports = {
         if (course) {
             filter = {
                 ...filter,
-                course: { $regex: course }
+                course: course
             }
         }
 
@@ -61,14 +61,14 @@ module.exports = {
         if (course_format) {
             filter = {
                 ...filter,
-                course_format: { $regex: course_format, $options: 'i' }
+                course_format: course_format
             }
         }
 
         if (course_type) {
             filter = {
                 ...filter,
-                course_type: { $regex: course_type, $options: 'i' }
+                course_type: course_type
             }
         }
 
@@ -96,7 +96,14 @@ module.exports = {
         if (status) {
             filter = {
                 ...filter,
-                status: { $regex: status, $options: 'i' }
+                status: status
+            }
+        }
+
+        if (group) {
+            filter = {
+                ...filter,
+                group: { $regex: group, $options: 'i' }
             }
         }
 
