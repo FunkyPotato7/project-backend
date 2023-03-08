@@ -37,6 +37,8 @@ module.exports = {
         try {
             const { _id, body, tokenInfo } = req;
 
+            console.log(body);
+
             const { profile } = await userService.findOne({_id: tokenInfo._user_id});
 
             body._manager_id = profile._id;
