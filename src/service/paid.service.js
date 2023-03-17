@@ -10,7 +10,7 @@ module.exports = {
         const sortObject = paidHelper.sort(order);
 
 
-        let [data, count_on_page, total_count, statuses] = await Promise.all([
+        let [data, count_on_page, total_count] = await Promise.all([
             Paid.aggregate([
                 {
                     $match: filter,

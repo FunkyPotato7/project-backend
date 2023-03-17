@@ -6,7 +6,6 @@ module.exports = {
             created_at, utm, msg, status, group, sum, already_paid, my
         } = query;
 
-
         let filter = {};
 
         if (_id) {

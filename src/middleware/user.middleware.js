@@ -12,7 +12,7 @@ module.exports = {
             const user = await userService.findOne({ [dbField]: fieldToSearch });
 
             if (!user) {
-                throw new CustomError('User is not exist', 404);
+                throw new CustomError(`Wrong ${dbField}`, 404);
             }
 
             if (!user.is_active) {

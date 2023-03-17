@@ -10,7 +10,7 @@ module.exports = {
         phone: Joi.string().allow('', null).optional(),
         age: Joi.number().min(2).max(99).allow('', null).optional(),
         group: Joi.string().allow('', null).optional(),
-        status: Joi.string().equal("Agree", "Disagree", "In work", "Doubling", "New", null).optional(),
+        status: Joi.string().equal("Agree", "Disagree", "In work", "Doubling", "New").allow(null).optional(),
         course: Joi.string().allow('', null).uppercase().optional(),
         course_format: Joi.string().allow(null),
         course_type: Joi.string().allow('', null).lowercase().optional(),
