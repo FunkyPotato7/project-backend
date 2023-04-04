@@ -1,13 +1,15 @@
 const CustomError = require("../error/CustomError");
 const { authService, userService } = require('../service');
+const { authHelper } = require("../helper");
 const { authValidator } = require("../validator");
 const { tokenTypeEnum } = require("../enum");
 
 module.exports = {
 
-    isLoginBodyValid: async (req, res, next) => {
+    isCreateBodyValid: async (req, res, next) => {
         try {
-            const validate = await authValidator.loginValidator.validate(req.body);
+
+            const validate = await authValidator.createValidator.validate(req.body);
 
             if (validate.error) {
                 throw new CustomError(validate.error.message, 400);
@@ -21,13 +23,26 @@ module.exports = {
         }
     },
 
-    isCreateBodyValid: async (req, res, next) => {
+    checkLoginBody: async (req, res, next) => {
         try {
+            const { body } = req;
 
-            const validate = await authValidator.createValidator.validate(req.body);
+            const validate = await authValidator.loginValidator.validate(body);
 
             if (validate.error) {
                 throw new CustomError(validate.error.message, 400);
+            }
+
+            const user = await userService.findOne({email: body.email});
+
+            if (!user) {
+                throw new CustomError(`Wrong email or password`, 400);
+            }
+
+            const isPasswordsSame = await authHelper.comparePasswords(user.password, body.password);
+
+            if (!isPasswordsSame) {
+                throw new CustomError(`Wrong email or password`, 400);
             }
 
             req.body = validate.value;

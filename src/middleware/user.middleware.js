@@ -1,6 +1,6 @@
 const CustomError = require("../error/CustomError");
 const { userService } = require("../service");
-const { userNormalizator } = require("../helper");
+const { userNormalizator, authHelper} = require("../helper");
 const { commonValidator } = require("../validator");
 
 module.exports = {
@@ -12,7 +12,7 @@ module.exports = {
             const user = await userService.findOne({ [dbField]: fieldToSearch });
 
             if (!user) {
-                throw new CustomError(`Wrong ${dbField}`, 404);
+                throw new CustomError(`User not found`, 404);
             }
 
             if (!user.is_active) {

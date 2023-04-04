@@ -3,4 +3,5 @@ module.exports = {
     paidService: require('./paid.service'),
     userService: require('./user.service'),
     commentService: require('./comment.service'),
+    groupService: require('./group.service'),
 };

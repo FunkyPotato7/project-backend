@@ -1,7 +1,7 @@
 const excelJs = require("exceljs");
 const path = require('path');
 
-const { paidService, userService, commentService } = require('../service');
+const { paidService, userService, commentService, groupService} = require('../service');
 const { Profile, Paid } = require("../model");
 const { pathsEnum } = require("../enum");
 const colums = require("../config/colums");
@@ -41,9 +41,17 @@ module.exports = {
 
             body._manager_id = profile._id;
 
+            if (!body.group) {
+                body._group_id = null;
+            } else {
+                body._group_id = body.group;
+            }
+
             if (body.status === 'New' || !body.status) {
                 body._manager_id = null;
                 body.comment = null;
+                body._group_id = null;
+
                 await commentService.deleteById({_paid_id: _id});
             }
 

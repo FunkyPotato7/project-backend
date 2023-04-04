@@ -1,9 +1,8 @@
-const { paidValidator, commonValidator } = require("../validator");
 const CustomError = require("../error/CustomError");
+const { groupValidator, commonValidator } = require("../validator");
 
 module.exports = {
-
-    isPaidIdValid: async (req, res, next) => {
+    isGroupIdValid: async (req, res, next) => {
         try {
             const { id } = req.params;
 
@@ -21,10 +20,27 @@ module.exports = {
         }
     },
 
+    isCreateBodyValid: async (req, res, next) => {
+        try {
+
+            const validate = groupValidator.createValidator.validate(req.body);
+
+            if (validate.error) {
+                throw new CustomError(validate.error.message, 400);
+            }
+
+            req.body = validate.value;
+
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
     isUpdateBodyValid: async (req, res, next) => {
         try {
 
-            const validate = paidValidator.updateValidator.validate(req.body);
+            const validate = groupValidator.updateValidator.validate(req.body);
 
             if (validate.error) {
                 throw new CustomError(validate.error.message, 400);
@@ -37,5 +53,4 @@ module.exports = {
             next(e);
         }
     }
-
 };

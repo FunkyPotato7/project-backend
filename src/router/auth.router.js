@@ -4,7 +4,7 @@ const { authController } = require('../controller');
 const { userMiddleware, authMiddleware  } = require('../middleware');
 
 
-router.post('/login', authMiddleware.isLoginBodyValid, userMiddleware.checkUserDynamically('email'), authController.login);
+router.post('/login', authMiddleware.checkLoginBody, userMiddleware.checkUserDynamically('email'), authController.login);
 
 router.post('/refresh', authMiddleware.checkRefreshToken, authController.refresh);
 

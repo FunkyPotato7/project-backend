@@ -7,9 +7,7 @@ module.exports = {
 
     login: async (req, res, next) => {
         try {
-            const { user, body } = req;
-
-            await authHelper.comparePasswords(user.password, body.password);
+            const { user } = req;
 
             const tokenPair = authService.generateAccessTokenPair({ id: user._id });
 

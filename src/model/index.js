@@ -5,4 +5,5 @@ module.exports = {
     Paid: require('./Paid'),
     Comment: require('./Comment'),
     ActionToken: require('./ActionToken'),
+    Group: require('./Group'),
 };

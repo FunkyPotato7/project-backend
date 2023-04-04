@@ -1,4 +1,5 @@
-const {Comment} = require("../model");
+const { Comment } = require("../model");
+
 module.exports = {
     create: async (data) => {
         return Comment.create(data);

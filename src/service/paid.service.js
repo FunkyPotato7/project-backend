@@ -10,7 +10,7 @@ module.exports = {
         const sortObject = paidHelper.sort(order);
 
 
-        let [data, count_on_page, total_count] = await Promise.all([
+        const [data, count_on_page, total_count] = await Promise.all([
             Paid.aggregate([
                 {
                     $match: filter,
@@ -32,10 +32,21 @@ module.exports = {
                     }
                 },
                 {
+                    $lookup: {
+                        from: 'groups',
+                        localField: '_group_id',
+                        foreignField: '_id',
+                        as: 'group'
+                    }
+                },
+                {
                     $unwind: {path: "$manager", preserveNullAndEmptyArrays: true}
                 },
                 {
-                    $unset: ["_manager_id", "comments.updatedAt", "comments._paid_id"],
+                    $unwind: {path: "$group", preserveNullAndEmptyArrays: true}
+                },
+                {
+                    $unset: ["_manager_id", "_group_id", "group.updatedAt", "group.createdAt", "comments.updatedAt", "comments._paid_id"],
                 },
                 {
                     $sort: sortObject
@@ -57,6 +68,92 @@ module.exports = {
             count_on_page,
             total_count,
         };
+    },
+
+    findOneById: async (_id) => {
+        const result = await Paid.aggregate([
+            {
+                $match: { _id }
+            },
+            {
+                $lookup: {
+                    from: 'comments',
+                    localField: '_id',
+                    foreignField: '_paid_id',
+                    as: 'comments'
+                }
+            },
+            {
+                $lookup: {
+                    from: 'profiles',
+                    localField: '_manager_id',
+                    foreignField: '_id',
+                    as: 'manager'
+                }
+            },
+            {
+                $lookup: {
+                    from: 'groups',
+                    localField: '_group_id',
+                    foreignField: '_id',
+                    as: 'group'
+                }
+            },
+            {
+                $unwind: {path: "$manager", preserveNullAndEmptyArrays: true}
+            },
+            {
+                $unwind: {path: "$group", preserveNullAndEmptyArrays: true}
+            },
+            {
+                $unset: ["_manager_id", "_group_id", "group.updatedAt", "group.createdAt", "comments.updatedAt", "comments._paid_id"],
+            }
+       ]);
+         return result[0];
+    },
+
+    updateById: async (id, newInfo) => {
+        const { _id } = await Paid.findOneAndUpdate(id, newInfo);
+
+        const result = await Paid.aggregate([
+            {
+                $match: { _id }
+            },
+            {
+                $lookup: {
+                    from: 'comments',
+                    localField: '_id',
+                    foreignField: '_paid_id',
+                    as: 'comments'
+                }
+            },
+            {
+                $lookup: {
+                    from: 'profiles',
+                    localField: '_manager_id',
+                    foreignField: '_id',
+                    as: 'manager'
+                }
+            },
+            {
+                $lookup: {
+                    from: 'groups',
+                    localField: '_group_id',
+                    foreignField: '_id',
+                    as: 'group'
+                }
+            },
+            {
+                $unwind: {path: "$manager", preserveNullAndEmptyArrays: true}
+            },
+            {
+                $unwind: {path: "$group", preserveNullAndEmptyArrays: true}
+            },
+            {
+                $unset: ["_manager_id", "_group_id", "group.updatedAt", "group.createdAt", "comments.updatedAt", "comments._paid_id"],
+            }
+       ]);
+        return result[0];
     },
 
     getStatusStatistic: async () => {
@@ -130,70 +227,6 @@ module.exports = {
             },
         ]);
 
-        return result[0];
-    },
-
-    findOneById: async (_id) => {
-        const result = await Paid.aggregate([
-            {
-                $match: { _id }
-            },
-            {
-                $lookup: {
-                    from: 'comments',
-                    localField: '_id',
-                    foreignField: '_paid_id',
-                    as: 'comments'
-                }
-            },
-            {
-                $lookup: {
-                    from: 'profiles',
-                    localField: '_manager_id',
-                    foreignField: '_id',
-                    as: 'manager'
-                }
-            },
-            {
-                $unwind: {path: "$manager", preserveNullAndEmptyArrays: true}
-            },
-            {
-                $unset: ["_manager_id", "comments.updatedAt", "comments._paid_id"]
-            }
-       ]);
-         return result[0];
-    },
-
-    updateById: async (id, newInfo) => {
-        const { _id } = await Paid.findOneAndUpdate(id, newInfo);
-
-        const result = await Paid.aggregate([
-            {
-                $match: { _id }
-            },
-            {
-                $lookup: {
-                    from: 'comments',
-                    localField: '_id',
-                    foreignField: '_paid_id',
-                    as: 'comments'
-                }
-            },
-            {
-                $lookup: {
-                    from: 'profiles',
-                    localField: '_manager_id',
-                    foreignField: '_id',
-                    as: 'manager'
-                }
-            },
-            {
-                $unwind: {path: "$manager", preserveNullAndEmptyArrays: true}
-            },
-            {
-                $unset: ["_manager_id", "comments.updatedAt", "comments._paid_id"]
-            }
-       ]);
         return result[0];
     }
 };

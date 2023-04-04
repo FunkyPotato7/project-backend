@@ -1,9 +1,12 @@
+const moment = require("moment");
+
+
 module.exports = {
 
     find: (query, userId) => {
-        const {
+        let {
             _id, course, name, surname, email, phone, age, course_format, course_type,
-            created_at, utm, msg, status, group, sum, already_paid, my
+            utm, msg, status, group, sum, already_paid, my, start_date, end_date
         } = query;
 
         let filter = {};
@@ -71,13 +74,6 @@ module.exports = {
             }
         }
 
-        if (created_at) {
-            filter = {
-                ...filter,
-                created_at: { $regex: created_at }
-            }
-        }
-
         if (utm) {
             filter = {
                 ...filter,
@@ -126,6 +122,22 @@ module.exports = {
                 _manager_id: userId
             }
 
+        }
+
+        if (start_date && end_date) {
+            start_date = new Date(start_date);
+            end_date = new Date(end_date);
+
+            const isoStartDate = start_date.toISOString();
+            const isoEndDate = end_date.toISOString();
+
+            filter = {
+                ...filter,
+                created_at: {
+                    $gte: isoStartDate,
+                    $lte: isoEndDate
+                }
+            }
         }
 
         return filter;

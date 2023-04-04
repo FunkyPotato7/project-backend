@@ -8,7 +8,6 @@ const { authHelper } = require("../helper");
 
 
 module.exports = {
-
     generateAccessTokenPair: (dataToSign = {}) => {
         const accessToken = jwt.sign(dataToSign, ACCESS_KEY, { expiresIn: '6h' });
         const refreshToken = jwt.sign(dataToSign, REFRESH_KEY, { expiresIn: '12h' });
@@ -41,7 +40,6 @@ module.exports = {
     checkActionToken: (token, actionType) => {
         try {
             const secretWord = authHelper.getSecretWord(actionType);
-
 
             return jwt.verify(token, secretWord);
         } catch (e) {
