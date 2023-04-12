@@ -1,5 +1,4 @@
-const moment = require("moment");
-
+const CustomError = require("../error/CustomError");
 
 module.exports = {
 
@@ -54,6 +53,10 @@ module.exports = {
         }
 
         if (age) {
+            if (isNaN(sum)) {
+                throw new CustomError('field "age" must be a number', 400);
+            }
+
             filter = {
                 ...filter,
                 age: { $eq: +age }
@@ -103,6 +106,10 @@ module.exports = {
         }
 
         if (sum) {
+            if (isNaN(sum)) {
+                throw new CustomError('field "sum" must be a number', 400);
+            }
+
             filter = {
                 ...filter,
                 sum: { $eq: sum }
@@ -110,6 +117,10 @@ module.exports = {
         }
 
         if (already_paid) {
+            if (isNaN(already_paid)) {
+                throw new CustomError('field "already_paid" must be a number', 400);
+            }
+
             filter = {
                 ...filter,
                 already_paid: { $eq: already_paid }

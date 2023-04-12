@@ -8,7 +8,6 @@ module.exports = {
 
     isCreateBodyValid: async (req, res, next) => {
         try {
-
             const validate = await authValidator.createValidator.validate(req.body);
 
             if (validate.error) {
@@ -33,7 +32,7 @@ module.exports = {
                 throw new CustomError(validate.error.message, 400);
             }
 
-            const user = await userService.findOne({email: body.email});
+            const user = await userService.findOneSimple({email: body.email});
 
             if (!user) {
                 throw new CustomError(`Wrong email or password`, 400);

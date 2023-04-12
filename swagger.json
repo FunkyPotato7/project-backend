@@ -613,6 +613,167 @@
         }
       }
     },
+    "/groups": {
+      "get": {
+        "description": "Get all groups",
+        "tags": [
+          "Group"
+        ],
+        "operationId": "groups-all",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "$ref": "#/definitions/Groups"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/CustomError"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "description": "Create a new group",
+        "tags": [
+          "Group"
+        ],
+        "operationId": "groups-create",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "New group name"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "$ref": "#/definitions/Group"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/CustomError"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/groups/{id}": {
+      "get": {
+        "description": "Get one group by id",
+        "tags": [
+          "Group"
+        ],
+        "operationId": "group-getBy-id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "$ref": "#/definitions/Group"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/CustomError"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "put": {
+        "description": "Update group by id",
+        "tags": [
+          "Group"
+        ],
+        "operationId": "groups-update",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "$ref": "#/definitions/Group"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/CustomError"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete group by id",
+        "tags": [
+          "Group"
+        ],
+        "operationId": "groups-delete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/CustomError"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "/users/me": {
       "get": {
         "description": "Get authenticated user",
@@ -996,6 +1157,18 @@
         }
       }
     },
+    "Status": {
+      "properties": {
+        "status": {
+          "type": "string",
+          "example": "Agree"
+        },
+        "count": {
+          "type": "number",
+          "example": 1
+        }
+      }
+    },
     "Statistic": {
       "properties": {
         "total_count": {
@@ -1010,15 +1183,33 @@
         }
       }
     },
-    "Status": {
+    "Group": {
       "properties": {
-        "status": {
+        "_id": {
           "type": "string",
-          "example": "Agree"
+          "example": "641a168d83a6b04f87b1c5a4"
         },
+        "name": {
+          "type": "string",
+          "example": "group 2"
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "2023-03-21T20:41:49.138Z"
+        }
+      }
+    },
+    "Groups": {
+      "properties": {
         "count": {
           "type": "number",
-          "example": 1
+          "example": 5
+        },
+        "groups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Group"
+          }
         }
       }
     }

@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const CustomError = require("../error/CustomError");
 const { ACCESS_KEY, REFRESH_KEY } = require("../config/config");
-const { access, refresh} = require("../enum/tokenType.enum");
+const { access, refresh } = require("../enum/tokenType.enum");
 const { Auth, ActionToken } = require("../model");
 const { authHelper } = require("../helper");
 
@@ -43,7 +43,7 @@ module.exports = {
 
             return jwt.verify(token, secretWord);
         } catch (e) {
-            throw new CustomError('Token not valid', 401);
+            throw new CustomError('Action token not valid', 401);
         }
     },
 

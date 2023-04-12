@@ -56,8 +56,6 @@ module.exports = {
         try {
             const { body } = req;
 
-            console.log(body);
-
             const hashedPassword = await authHelper.hashPassword(body.password);
 
             await userService.updateById({ _id: body._id }, { password: hashedPassword, is_active: 1 } );

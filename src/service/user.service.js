@@ -19,7 +19,7 @@ module.exports = {
                 $unwind: "$profile"
             },
             {
-                $unset: ["profile._user_id"]
+                $unset: ["profile._user_id", "password"]
             },
             {
                 $lookup: {
@@ -153,7 +153,7 @@ module.exports = {
                 $unwind: "$profile"
             },
             {
-                $unset: ["profile._user_id"]
+                $unset: ["profile._user_id", "password"]
             },
             {
                 $lookup: {
@@ -272,6 +272,10 @@ module.exports = {
         return result[0];
     },
 
+    findOneSimple: async (filter) => {
+        return User.findOne(filter);
+    },
+
     findOneById: async (id) => {
         return User.findById(id);
     },
@@ -300,7 +304,7 @@ module.exports = {
                 $unwind: "$profile"
             },
             {
-                $unset: ["profile._user_id"]
+                $unset: ["profile._user_id", "password"]
             },
             {
                 $lookup: {
