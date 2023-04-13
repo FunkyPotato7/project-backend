@@ -53,7 +53,7 @@ module.exports = {
         }
 
         if (age) {
-            if (isNaN(sum)) {
+            if (isNaN(age)) {
                 throw new CustomError('field "age" must be a number', 400);
             }
 
