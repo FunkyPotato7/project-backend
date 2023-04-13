@@ -15,6 +15,7 @@ const paidScheme = new Schema(
         status: { type: String, default: null },
         sum: { type: Number, default: null },
         surname: { type: String, default: null },
+        num: { type: Number, default: null },
         _manager_id: { type: Schema.Types.ObjectId, ref: 'Profile', default: null },
         _group_id: { type: Schema.Types.ObjectId, ref: 'Group', default: null }
     },
