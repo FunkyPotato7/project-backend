@@ -143,4 +143,18 @@ module.exports = {
             next(e);
         }
     },
+
+    dontBanYourSelf: async (req, res, next) => {
+        try {
+            const { userId, tokenInfo } = req;
+
+            if (userId === tokenInfo._user_id.toString()) {
+                throw new CustomError("You can't ban yourself!", 400);
+            }
+
+            next();
+        } catch (e) {
+            next(e);
+        }
+    }
 };

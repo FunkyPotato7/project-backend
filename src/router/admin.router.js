@@ -19,6 +19,7 @@ router.put('/users/:userId',
     userMiddleware.isUserIdValid,
     authMiddleware.checkAccessToken,
     authMiddleware.checkPermission,
+    authMiddleware.dontBanYourSelf,
     authController.block
 );
 
