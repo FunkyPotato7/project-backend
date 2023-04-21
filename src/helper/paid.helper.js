@@ -5,7 +5,7 @@ module.exports = {
     find: (query, userId) => {
         let {
             _id, course, name, surname, email, phone, age, course_format, course_type,
-            utm, msg, status, group, sum, already_paid, my, start_date, end_date
+            utm, msg, status, group, sum, already_paid, my, start_date, end_date, num
         } = query;
 
         let filter = {};
