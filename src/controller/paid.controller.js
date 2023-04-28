@@ -12,8 +12,8 @@ module.exports = {
         try {
             const { _user_id } = req.tokenInfo;
             const { _id } = await Profile.findOne({ _user_id });
-
-            const result = await paidService.find(req.query, _id);
+            const group = await groupService.findOne({name: req.query.group});
+            const result = await paidService.find(req.query, _id, group?._id);
 
             res.status(200).json(result);
         } catch (e) {

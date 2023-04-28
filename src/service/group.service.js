@@ -1,7 +1,8 @@
 const { Group } = require("../model");
+const {sanitizeFilter} = require("mongoose");
 
 module.exports = {
-    find: async (filter = {}) => {
+    findAll: async (filter = {}) => {
         const [count, groups] = await Promise.all([
             Group.count(filter),
             Group.find(filter, {name: 1, _id: 1, createdAt: 1})
@@ -10,6 +11,10 @@ module.exports = {
             count,
             groups
         };
+    },
+
+    findOne: async (filter = {}) => {
+        return Group.findOne(filter);
     },
 
     findById: async (id) => {

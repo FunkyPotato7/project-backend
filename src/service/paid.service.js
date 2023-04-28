@@ -2,13 +2,12 @@ const { Paid } = require('../model');
 const { paidHelper } = require("../helper");
 
 module.exports = {
-    find: async (query, userId) => {
+    find: async (query, userId, groupId) => {
         const { page = 1, limit = '10', order = '_id' } = query;
 
         const parsedLimit = parseInt(limit);
-        const filter = paidHelper.find(query, userId);
+        const filter = await paidHelper.find(query, userId, groupId);
         const sortObject = paidHelper.sort(order);
-
 
         const [data, count_on_page, total_count] = await Promise.all([
             Paid.aggregate([

@@ -2,11 +2,12 @@ const CustomError = require("../error/CustomError");
 
 module.exports = {
 
-    find: (query, userId) => {
+    find: async (query, userId, groupId) => {
         let {
             _id, course, name, surname, email, phone, age, course_format, course_type,
-            utm, msg, status, group, sum, already_paid, my, start_date, end_date, num
+            utm, msg, status, sum, already_paid, my, start_date, end_date, num
         } = query;
+
 
         let filter = {};
 
@@ -98,10 +99,10 @@ module.exports = {
             }
         }
 
-        if (group) {
+        if (groupId) {
             filter = {
                 ...filter,
-                group: { $regex: group, $options: 'i' }
+                _group_id: groupId
             }
         }
 

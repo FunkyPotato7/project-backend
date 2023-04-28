@@ -3,7 +3,7 @@ const { groupService } = require("../service");
 module.exports = {
     getAll: async (req, res, next) => {
         try {
-            const groups = await groupService.find();
+            const groups = await groupService.findAll();
 
             res.status(200).json(groups);
         } catch (e) {
