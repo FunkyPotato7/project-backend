@@ -77,8 +77,8 @@ module.exports = {
             const { _user_id } = req.tokenInfo;
             const { _id } = await Profile.findOne({ _user_id });
 
-            const { data } = await paidService.find(req.query, _id);
-
+            const group = await groupService.findOne({name: req.query.group});
+            const { data } = await paidService.find(req.query, _id, group?._id);
 
             data.forEach((paid) => {
                 paid.manager = paid.manager?.name
@@ -92,7 +92,8 @@ module.exports = {
                 }
             });
 
-            const filePath = path.join(pathsEnum.files + '/paid.xlsx');
+            const filePath = path.join(__filename, "../../files/paid.xlsx");
+            console.log(filePath);
 
             await workbook.xlsx.writeFile(filePath);
 
