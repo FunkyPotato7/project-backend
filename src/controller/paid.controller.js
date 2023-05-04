@@ -92,7 +92,7 @@ module.exports = {
                 }
             });
 
-            const filePath = path.join(__filename, "../../files/paid.xlsx");
+            const filePath = path.join(__dirname, "../files/paid.xlsx");
             console.log(filePath);
 
             await workbook.xlsx.writeFile(filePath);
